@@ -1,0 +1,141 @@
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  width: 90%;
+  margin: 0 auto;
+  justify-content: space-between;
+  border: 1px solid hotpink;
+  border-radius: 20px;
+}
+
+.navigation {
+  display: flex;
+  align-items: center;
+  gap: 100px;
+}
+
+a {
+  text-decoration: none;
+  color: rgb(163, 165, 163);
+}
+
+a:hover {
+  color: aqua;
+}
+
+.project {
+  padding: 11px 43px;
+  border-radius: 50px;
+  background-color: #1e88e5;
+  color: white;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-bottom: 100px;
+}
+
+h1 {
+  width: 634px;
+  color: #252525;
+  font-family: Poppins;
+  font-size: 65px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.contentText {
+  width: 588px;
+  color: #9c9696;
+  font-family: Poppins;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.freelancerButton {
+  background-color: #1e88e5;
+  color: white;
+  border: 0px;
+  padding: 20px 24px;
+  border-radius: 10px;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 600;
+}
+
+input {
+  width: 420px;
+  height: 65px;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.05);
+}
+
+.pageOptions {
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  border: 1px solid hotpink;
+  border-radius: 20px;
+}
+
+.firsOption {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.pageOffers {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.rightSide p {
+  width: 516px;
+  height: 314px;
+}
+
+.cart {
+  width: 290px;
+  height: 241px;
+  border: 1px solid hotpink;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.hrss {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.firstHr,
+.secondHr,
+.thirdHr {
+  width: 70px;
+  height: 5px;
+  background-color: blue;
+  border-radius: 10px;
+}

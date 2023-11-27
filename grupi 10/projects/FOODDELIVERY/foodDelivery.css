@@ -1,0 +1,113 @@
+* {
+  padding: 0px;
+  margin: 0px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.navigation {
+  width: 400px;
+  display: flex;
+  justify-content: space-around;
+}
+
+a {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  text-decoration: none;
+  color: black;
+}
+
+a:hover {
+  color: #fa4a0c;
+}
+
+.backgroundImage {
+  width: 100%;
+}
+
+.titles {
+  color: white;
+  position: absolute;
+  top: 300px;
+  left: 25%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+h3 {
+  font-size: 24px;
+}
+
+h1 {
+  font-size: 58px;
+  font-style: normal;
+  font-weight: 700;
+}
+
+h4 {
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+}
+
+.firstButton {
+  width: 236px;
+  padding: 16px 0px;
+  border-radius: 30px;
+  background-color: #fa4a0c;
+  color: white;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.secondButton {
+  width: 236px;
+  padding: 16px 0px;
+  border-radius: 30px;
+  background-color: transparent;
+  border: 2px solid white;
+  color: white;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.phones {
+  position: absolute;
+  left: 450px;
+  top: 510px;
+  border-bottom: 2px solid rgb(161, 152, 152);
+}
+
+.phonesContainer {
+  height: 700px;
+}
+
+.appWorksTitle {
+  text-align: center;
+  font-size: 44px;
+  font-style: normal;
+  font-weight: 600;
+}
+
+.appWorksContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.firstP {
+  color: #fa4a0c;
+}

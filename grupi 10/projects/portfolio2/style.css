@@ -1,0 +1,128 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+.header {
+  display: flex;
+  justify-content: right;
+  font-size: 25px;
+  gap: 20px;
+  padding-right: 50px;
+  padding-top: 30px;
+  border: 1px solid black;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+  font-weight: 600;
+}
+
+a:hover {
+  color: aqua;
+}
+
+.text1 {
+  width: 497px;
+  height: 66px;
+}
+
+.content {
+  border: 1px solid blue;
+  display: flex;
+  justify-content: space-around;
+  height: 500px;
+  align-items: center;
+}
+.content-leftside {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+img {
+  width: 243px;
+  height: 243px;
+  border-radius: 243px;
+}
+
+.text1 {
+  width: 497px;
+  height: 66px;
+  color: var(--Dark-Color, #21243d);
+  font-size: 16px;
+}
+
+h1 {
+  width: 506px;
+  height: 105px;
+  font-size: 45px;
+  color: var(--Dark-Color, #21243d);
+  line-height: 60px;
+}
+
+button {
+  width: 208px;
+  height: 47px;
+  background-color: #ff6464;
+  color: white;
+  font-size: 20px;
+  border: white;
+  border-radius: 2px;
+}
+
+.recentPosts {
+  background-color: #edf7fa;
+}
+.recentPosts-top {
+  display: flex;
+  justify-content: space-between;
+  font-size: 22px;
+  margin: 0 35px;
+}
+
+.cards {
+  display: flex;
+  justify-content: center;
+  border: 1px solid black;
+  gap: 20px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 418px;
+  height: 295px;
+  background-color: white;
+}
+
+h3 {
+  width: 374px;
+
+  flex-shrink: 0;
+}
+
+.date {
+  width: 374px;
+  border: 1px solid black;
+}
+
+.card p {
+  width: 368px;
+}
+
+.card2 {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.footer-img {
+  display: flex;
+}
+.footer-text {
+  display: flex;
+  justify-content: center;
+}

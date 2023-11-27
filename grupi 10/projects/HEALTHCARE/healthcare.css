@@ -1,0 +1,44 @@
+* {
+  padding: 0px;
+  margin: 0px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.leftSide,
+.rightSide {
+  display: flex;
+  gap: 20px;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+  font-size: 20px;
+}
+
+a:hover {
+  color: #458ff6;
+}
+
+.logo {
+  background-color: #458ff6;
+  color: white;
+  font-size: 26px;
+  font-weight: 700;
+  width: 41px;
+  height: 41px;
+  border-radius: 20.5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+}

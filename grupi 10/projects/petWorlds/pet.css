@@ -1,0 +1,147 @@
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.headerLeftSide {
+  margin-left: 50px;
+}
+
+.headerRightSide {
+  margin-right: 50px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.signupText {
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  color: black;
+  text-decoration: none;
+}
+
+.loginButton {
+  width: 153px;
+  height: 54px;
+  background-color: blue;
+  border: 0px;
+  color: white;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  border-radius: 10px;
+}
+
+.descriptionContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.title {
+  width: 350px;
+  font-size: 80px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 90px;
+}
+
+.descriptionText {
+  width: 370px;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 32px;
+}
+
+.getStartedButton {
+  width: 203px;
+  height: 64px;
+  border-radius: 10px;
+  background-color: #f8d57e;
+  border: 0px;
+}
+
+.main {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 800px;
+  background-color: #f7f5fd;
+}
+
+.videoPlayer,
+.categories {
+  display: flex;
+  justify-content: center;
+  margin-top: 100px;
+}
+
+.videoPlayer img {
+  border-radius: 10px;
+}
+
+.brands {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  margin-top: 100px;
+}
+
+.userDescription {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 600px;
+  background-color: #ece7fb;
+  gap: 50px;
+}
+
+.userDescription div p {
+  width: 400px;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 32px;
+}
+
+.first {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.first img {
+  margin-left: 50px;
+}
+
+.first div {
+  margin-right: 50px;
+}
+
+.second {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+  margin-right: 50px;
+}
+input {
+  width: 20dvh;
+  height: 40px;
+}
+
+.inputs button {
+  padding: 15px;
+  color: white;
+  border: 0px;
+  border-radius: 10px;
+  background-color: blue;
+}

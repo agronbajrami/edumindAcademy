@@ -1,0 +1,128 @@
+*{
+    padding: 0;
+    margin: 0;
+    color: white;
+}
+
+.container {
+    background-image: url("https://images.hdqwalls.com/wallpapers/tree-alone-dark-evening-4k-ay.jpg");
+    background-size: cover;
+}
+
+.header{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 15px 0px;
+}
+
+.content{
+    display: flex;
+    align-items: center;
+    height: 90.5vh;
+}
+
+.description{
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.modal{
+    flex: 1;
+}
+
+h1 {
+    font-size: 45px;
+}
+
+.information{
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    margin: 0 auto;
+    align-items: center;
+    gap: 20px;
+    background-color: black;
+    padding: 15px;
+    border-radius: 20px;
+}
+
+h2 {
+    color: rgb(255, 145, 0);
+    font-size: 33px;
+}
+
+.development{
+    color: rgb(255, 145, 0);
+}
+
+.joinUs{
+    width: 130px;
+    background-color: rgb(255, 145, 0);
+    color: black;
+    padding: 15px;
+    border-radius: 10px;
+    border: 0px;
+}
+
+.logInHere{
+    width: 80%;
+    background-color: white;
+    color: rgb(255, 145, 0);
+    font-size: 28px;
+    padding: 10px 0;
+    border: 0px;
+    border-radius: 10px;
+}
+
+.logIn{
+    width: 80%;
+    background-color: rgb(255, 145, 0);
+    color: black;
+    font-size: 28px;
+    padding: 10px 0;
+    border: 0px;
+    border-radius: 10px;
+}
+
+.signUp{
+    color: rgb(255, 145, 0);
+}
+
+.inputs{
+    border: 0;
+    width: 80%;
+    padding: 10px 0;
+    background-color: black;
+    color: rgb(255, 145, 0);
+    border-bottom: 1px solid rgb(255, 145, 0);
+}
+
+.social-icons{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.search{
+    display: flex;
+}
+
+.search input{
+    border: 1px solid rgb(255, 145, 0);;
+    background: transparent;
+    padding: 10px 0px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.search button{
+    border: 0;
+    width: 80px;
+    background-color: rgb(255, 145, 0);
+    padding: 10px 0px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
