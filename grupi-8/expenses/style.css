@@ -1,0 +1,69 @@
+* {
+  padding: 0px;
+  margin: 0px;
+}
+
+.add-expense {
+  width: 50%;
+  height: 35vh;
+  margin: 0 auto;
+  margin-top: 20px;
+  border-radius: 20px;
+  background-color: rgb(167, 77, 250);
+}
+
+.expenses {
+  width: 50%;
+  height: 50vh;
+  margin: 0 auto;
+  margin-top: 20px;
+  background-color: rgb(61, 58, 58);
+  border-radius: 20px;
+}
+
+.title-amount {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.title {
+  width: 45%;
+}
+
+.amount {
+  width: 45%;
+}
+
+.title input,
+.amount input {
+  width: 80%;
+  height: 27px;
+}
+
+.date input {
+  width: 35%;
+  height: 27px;
+}
+
+.date {
+  margin-top: 20px;
+  margin-left: 35px;
+}
+
+.button {
+  height: 140px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.button button {
+  padding: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  background-color: rgb(98, 25, 165);
+  color: wheat;
+  border: 0px;
+}

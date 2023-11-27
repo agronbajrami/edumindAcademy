@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Shelter</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">Welcome.</h1>
+            <h3 class="subTitle">Our friends need a home.</h3>
+        </div>
+        <div class="filtering">
+            <button onclick="onAllAnimalsHandler('All animals')">All Animals</button>
+            <button onclick="onCatHandler('cat')">Only Cats</button>
+            <button onclick="onDogHandler('dog')">Only Dogs</button>
+            <button onclick="onRabbitHandler('rabbit')">Only Rabbits</button>
+        </div>
+        <div class="content" id="content">
+
+        </div>
+    </div>
+</body>
+<script src="script.js"></script>
+
+</html>

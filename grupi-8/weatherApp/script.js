@@ -1,0 +1,58 @@
+const weather = [
+  {
+    city: "New York",
+    date: "2023-11-25",
+    max_temperature: 22,
+    min_temperature: 10,
+    conditions: "Partly Cloudy",
+  },
+  {
+    city: "Shkupi",
+    date: "2023-11-26",
+    max_temperature: 33,
+    min_temperature: 13,
+    conditions: "Sunny",
+  },
+  {
+    city: "Tetova",
+    date: "2023-11-27",
+    max_temperature: 34,
+    min_temperature: 9,
+    conditions: "Rain Showers",
+  },
+  {
+    city: "Kumanova",
+    date: "2023-11-27",
+    max_temperature: 32,
+    min_temperature: 12,
+    conditions: "Sunny",
+  },
+  {
+    city: "Prishtina",
+    date: "2023-11-27",
+    max_temperature: 31,
+    min_temperature: 11,
+    conditions: "HEM-HEM",
+  },
+  {
+    city: "Ferizaj",
+    date: "2023-11-27",
+    max_temperature: 29,
+    min_temperature: 9,
+    conditions: "CLOUDY",
+  },
+  {
+    city: "Tirana",
+    date: "2023-11-27",
+    max_temperature: 28,
+    min_temperature: 8,
+    conditions: "Bumbullim",
+  },
+  {
+    city: "Presheva",
+    date: "2023-11-27",
+    max_temperature: 27,
+    min_temperature: 7,
+    conditions: "Sunny",
+  },
+];

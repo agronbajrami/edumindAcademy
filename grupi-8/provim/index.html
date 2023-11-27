@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PROVIM</title>
+  </head>
+  <body>
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" />
+    <br />
+    <label for="surname">Surname:</label>
+    <input type="text" id="surname" name="surname" />
+    <br />
+    <label for="index">Index:</label>
+    <input type="number" id="index" name="index" />
+    <br />
+    <label for="subject">Subject:</label>
+    <input type="text" id="subject" name="subject" />
+    <br />
+    <label for="points">Points:</label>
+    <input type="number" id="points" name="points" />
+    <br />
+    <button onclick="onInsertHandler()">Insert</button>
+    <table id="table" border="2px">
+      <thead>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Index</th>
+        <th>Subject</th>
+        <th>Points</th>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </body>
+  <script src="script.js"></script>
+</html>

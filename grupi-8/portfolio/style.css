@@ -1,0 +1,123 @@
+* {
+  padding: 0px;
+  margin: 0px;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+}
+
+.header {
+  display: flex;
+  justify-content: flex-end;
+  gap: 50px;
+  padding-right: 80px;
+}
+
+.rightSide img {
+  border-radius: 50%;
+}
+
+.contentTopSide {
+  display: flex;
+  height: 500px;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.leftSide h1 {
+  width: 405px;
+  height: 105px;
+  font-size: 44px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 60px;
+}
+
+.leftSide p {
+  width: 447px;
+  height: 66px;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.leftSide button {
+  width: 208px;
+  height: 47px;
+  color: white;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  border: 0px;
+  border-radius: 2px;
+  background-color: #ff6464;
+}
+
+.leftSide {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.recentPosts {
+  height: 396px;
+  background-color: #edf7fa;
+}
+
+.posts {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.cart {
+  width: 418px;
+  height: 295px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  justify-content: center;
+  align-items: center;
+}
+
+.carts {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+}
+
+.karta {
+  display: flex;
+  align-items: center;
+  width: 60%;
+  margin: 0 auto;
+  border-bottom: 1px dotted grey;
+  gap: 50px;
+}
+
+.karta div .viti {
+  background-color: black;
+  color: white;
+  border-radius: 10px;
+}
+
+.kartat {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}

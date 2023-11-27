@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <label for="name">Name:</label>
+    <input type="text" name="name" id="name">
+    <br>
+    <label for="maths">Maths:</label>
+    <input type="number" name="maths" id="maths">
+    <br>
+    <label for="science">Science:</label>
+    <input type="number" name="science" id="science">
+    <br>
+    <label for="english">English:</label>
+    <input type="number" name="english" id="english">
+    <br>
+    <label for="physics">Physics:</label>
+    <input type="number" name="physics" id="physics">
+    <br>
+    <button onclick="onInsertHandler()">insert</button>
+    <br>
+    <br>
+    <span>Number of students passed:</span><span id="passed">0</span><br>
+    <span>Number of students failed:</span><span id="failed">0</span>
+    <table border="2px">
+        <thead>
+            <tr>
+                <th colspan="6" style="color: white; background-color: green; ">STUDENT MARK SHEET</th>
+            </tr>
+            <tr>
+                <th style="background-color: lime;">Name</th>
+                <th style="background-color: lime;">Maths</th>
+                <th style="background-color: lime;">Science</th>
+                <th style="background-color: lime;">English</th>
+                <th style="background-color: lime;">Physics</th>
+                <th style="background-color: lime;">General Knowledge</th>
+            </tr>
+        </thead>
+        <tbody id="tbody">
+
+        </tbody>
+    </table>
+</body>
+<script src="script.js"></script>
+
+</html>

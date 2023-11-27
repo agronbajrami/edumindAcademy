@@ -1,0 +1,38 @@
+* {
+  padding: 0px;
+  margin: 0px;
+}
+
+.container {
+  border: 1px solid hotpink;
+  width: 450px;
+  margin: 0 auto;
+}
+
+#input {
+  width: 99%;
+  padding: 10px 0px;
+}
+
+.firstRow {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+button {
+  padding: 10px;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+.rows {
+  display: flex;
+  justify-content: space-around;
+}
+
+#equal {
+  background-color: lightblue;
+  color: white;
+  height: 184px;
+}
