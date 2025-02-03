@@ -1,0 +1,36 @@
+TODO: 
+
+1st: install git
+
+2nd: create bitbucket account
+
+3rd: create workspace (if there is a workspace create a project)
+
+4th: create a project
+
+5th: create a repository
+
+6th: create react-project with typescript
+
+7th: install packages based on the project (antd, dayjs, axios, react-query)
+
+8th: git add . git commit -m "initialize project" git push
+
+9th: give them a list of commands that they can use with git
+
+10: show them what is the purpose of this if we work in a team
+
+10.1: draw a graph
+
+10.2 help them create branches both from bitbucket and from visual studio
+
+10.3 GIT FETCH
+
+10.4 how to create a pull request
+
+10.5 what is the reason of a pull request
+
+11: try to create a conflict and help them resolve
+
+homework: try and do all of these in your own.
+
