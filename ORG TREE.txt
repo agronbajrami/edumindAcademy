@@ -1,0 +1,593 @@
+/* eslint-disable @typescript-eslint/indent */
+import React, { useEffect, useState } from "react";
+import { Tree, TreeNode } from "react-organizational-chart";
+import CardContent from "@mui/material/CardContent";
+import Box from "@mui/material/Box";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import IconButton from "@mui/material/IconButton";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import PersonIcon from "@mui/icons-material/Person";
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import Modal from "@mui/material/Modal";
+import {
+  Button,
+  TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  CircularProgress,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+} from "@mui/material";
+import "./OrganizationTree.scoped.scss";
+import Draggable from "react-draggable";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "src/app/store";
+import { deleteLevel, deleteOffice, fetchOffices, postLevel, postOffice } from "src/features/manageOfficesForLevelSlice";
+import { getOrganizationChart } from "src/features/activeAccountsSlice";
+import { useParams } from "react-router-dom";
+import {branchSizeMappings} from "src/types/BranchSizeEnum";
+
+import {clearCacheApi} from "src/api/clearCacheApi";
+import {fetchUserInfo} from "src/features/userSlice";
+
+const Organization = ({ org, onCollapse, collapsed, result }: any) => {
+  const orgchartdata = useSelector((state: any) => state?.activeAllAccounts?.organizationChartData)
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEdit, setIsEdit] = useState(false)
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [name, setName] = useState("");
+  const [type, setType] = useState("pool");
+  const [country, setCountry] = useState('')
+  const [branchSize, setBranchSize] = useState(0)
+  const relationshipId = orgchartdata.Data[0].RelationshipId
+  const [currentrelationshipId , setRelationshipId] = useState(relationshipId);
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch()
+  const countries = useSelector((state: RootState) => state.countries)
+  const account = orgchartdata.Account.Id
+  const loggedUser = useSelector((state: RootState) => state.user);
+  const { id } = useParams();
+
+
+  const handleOpenModal = (org, actionType) => {
+    if (actionType === 'add') {
+      setIsEdit(false);
+      setIsModalOpen(true);
+      setRelationshipId(org.RelationshipId);
+      setName("");
+      setType("pool");
+      setCountry('');
+      setBranchSize(0);
+    } else if (actionType === 'edit') {
+      setIsEdit(true);
+      setIsModalOpen(true);
+      setRelationshipId(org.RelationshipId);
+      setName(org.Name);
+      setType(org.Type);
+      setCountry(org.CountryId || '');
+      setBranchSize(org.BranchSize || 0);
+    }
+  };
+
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setIsEdit(false)
+  };
+
+  const handleSave = async (edit: Boolean): Promise<void> => {
+    if (edit){
+     const data = {id: org.ExternalId, name: name, alias: "", branchSize: branchSize, countryId: country, accountId: account,  relationshipId: relationshipId,  action: "editing"}
+      const dataPool = {id: org.ExternalId, name: name, accountId: account,  relationshipId: relationshipId,  action: "editing"}
+      if (type === 'branch'){
+        await dispatch(postOffice(data))
+      } else if (type === 'pool'){
+        await dispatch(postLevel(dataPool))
+      }
+    } else {
+      const data = {id: '', name: name, alias: "", branchSize: branchSize, countryId: country, accountId: account,  relationshipId: currentrelationshipId,  action: "adding"}
+      const dataPool = {id: '', name: name, accountId: account,  relationshipId: currentrelationshipId,  action: "adding"}
+      if (type === 'branch'){
+        await dispatch(postOffice(data))
+      } else if (type === 'pool'){
+        await dispatch(postLevel(dataPool))
+      }
+    }
+    await dispatch(getOrganizationChart(id))
+
+    setName("");
+    setType("pool");
+    setIsModalOpen(false);
+    dispatch(fetchOffices());
+  };
+
+  const onNavigateHandler = async (org: any) => {
+    let url = "";
+    switch(org.Type) {
+      case "account":
+        url = '/Admin/Account/LoginAs';
+        break;
+      case "pool":
+        url = '/Account/Pool/LoginAs';
+        break;
+      case "branch":
+        url = '/Account/Branch/LoginAs';
+        break;
+      default:
+        return;
+    }
+
+    try {
+      setLoading(true);
+      const response = await axios.get(url, {
+        params: { id: org.ExternalId },
+        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+      });
+
+      const result = response.data;
+      if (result && !result.hasError && result.redirectUrl) {
+        window.location.href = result.redirectUrl;
+      } else {
+        console.error("Navigation error:", result.errorText);
+      }
+    } catch (error) {
+      console.error("Axios error:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const allChildrenHaveNoChildren = org?.Children?.every(
+    (child: any) => child?.Type === "branch" && !child?.Children?.length
+  );
+
+  const onEditHandler = (org) => {
+    handleOpenModal(org, 'edit');
+    setIsEdit(true);
+  };
+
+  const onDeleteHandler = (): void => {
+    setIsDeleteDialogOpen(true);
+  };
+
+  const handleCloseDeleteDialog = (): void => {
+    setIsDeleteDialogOpen(false);
+  };
+
+  const handleConfirmDelete = async (): Promise<void> => {
+    setIsDeleteDialogOpen(false);
+    const data = {accountId: account,  relationshipId: relationshipId}
+
+    if (org.Type === "branch") {
+      await dispatch(deleteOffice(org.ExternalId,data));
+    } else if (org.Type === "pool") {
+      await dispatch(deleteLevel(org.ExternalId, data));
+    }
+    await clearCacheApi();
+    await dispatch(getOrganizationChart(id));
+  };
+
+
+  const hasRelationshipIdInChildren = (children, relationshipId) => {
+    if (!children) return false;
+    for (const child of children) {
+      if (child.RelationshipId === relationshipId || hasRelationshipIdInChildren(child.Children, relationshipId)) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+
+  const showDeleteButton = () => {
+    if (result?.currentObjectId?.includes(org.RelationshipId)){
+      return false
+    }
+    return true;
+  };
+
+
+  return (
+    <div
+      className={`treeNode ${org?.Type === "branch" ? "noChildren" : ""} ${
+        allChildrenHaveNoChildren ? "allChildrenNoChildren" : ""
+      }`}
+    >
+      <>{org?.Name}</>
+      <div>
+        {org?.Type === "pool" ? (
+          <CardContent>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                gap: "10px",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  color: "white",
+                }}
+              >
+                <PersonIcon style={{ color: "white" }} /> : {org?.UserCount}
+              </div>
+              <button className="addOfficeButton" onClick={ () => handleOpenModal(org, "add")}>
+                Add
+                <ArrowDownwardIcon
+                  style={{ fontSize: "15px", color: "green" }}
+                />
+              </button>
+
+            </div>
+          </CardContent>
+        ) : (
+          <CardContent>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                gap: "10px",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  color: "white",
+                }}
+              >
+                <PersonIcon style={{ color: "white" }} /> : {org?.UserCount}
+              </div>
+            </div>
+          </CardContent>
+        )}
+        <Modal
+          open={isModalOpen}
+          onClose={handleCloseModal}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 400,
+            bgcolor: "background.paper",
+            boxShadow: 24,
+            p: 4,
+            borderRadius: 4,
+            textAlign: "center",
+          }}>
+            <h2 id="modal-modal-title">{isEdit ? "Edit Level/Branch" : "Add Level/Branch"}</h2>
+            <TextField
+              id="name"
+              label="Name"
+              variant="outlined"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              fullWidth
+              sx={{ mb: 2 }}
+            />
+            <FormControl variant="outlined" fullWidth sx={{ mb: 2 }}>
+              <InputLabel id="type-label">Type</InputLabel>
+              <Select
+                labelId="type-label"
+                id="type"
+                value={type}
+                onChange={(e) => setType(e.target.value)}
+                label="Type"
+              >
+                <MenuItem value="pool">Pool</MenuItem>
+                <MenuItem value="branch">Branch</MenuItem>
+              </Select>
+            </FormControl>
+            {type === "branch" && (
+              <>
+                <FormControl variant="outlined" fullWidth sx={{ mb: 2 }}>
+                  <InputLabel id="country-label">Country</InputLabel>
+                  <Select
+                    labelId="country-label"
+                    id="country"
+                    MenuProps={{
+                      PaperProps: {
+                        style: {
+                          height: "350px",
+                          maxHeight: "350px",
+                          width: 250,
+                        },
+                      },
+                    }}
+                    value={country}
+                    onChange={(e) => setCountry(e.target.value)}
+                    label="Country"
+                  >
+                    {countries?.countries?.map((country) => (
+                      <MenuItem key={country.id} value={country.id}>
+                        {country.name} - {country.code}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                <FormControl variant="outlined" fullWidth sx={{ mb: 2 }}>
+                  <InputLabel id="branchSize-label">Office Size</InputLabel>
+                  <Select
+                    labelId="branchSize-label"
+                    id="branchSize"
+                    MenuProps={{
+                      PaperProps: {
+                        style: {
+                          height: "280px",
+                          maxHeight: "280px",
+                          width: 280,
+                        },
+                      },
+                    }}
+                    value={branchSize}
+                    onChange={(e) => setBranchSize(e.target.value ?? 0)}
+                    label="Office Size"
+                  >
+                    {Object.entries(branchSizeMappings).map(([value, index]) => (
+                      <MenuItem key={index} value={index}>
+                        {value}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </>
+            )}
+            <div className="actionModalButtons">
+              <Button variant="outlined" onClick={handleCloseModal} sx={{ ml: 2 }}>Cancel</Button>
+              <Button variant="contained" color="success" onClick={() => handleSave(isEdit)}>Save</Button>
+            </div>
+          </Box>
+        </Modal>
+        <div>
+          <div className="actions">
+            <Button variant="contained" sx={{backgroundColor: 'white' }} onClick={() => onEditHandler(org, 'edit')}><EditIcon style={{color: "black"}} /></Button>
+          {showDeleteButton() && (
+            <Button
+              variant="contained"
+              sx={{ backgroundColor: 'white' }}
+              onClick={onDeleteHandler}
+            >
+              <DeleteIcon style={{ color: "black" }} />
+            </Button>
+            )
+          }
+
+          </div>
+          <Button onClick={() => onNavigateHandler(org)} disabled={loading}>
+            {loading ? <CircularProgress size={24} /> : 'Navigate'}
+          </Button>
+
+        </div>
+        <div className="expandCollapseContainer">
+          {org?.Children?.length > 0 && (
+            <IconButton size="small" onClick={onCollapse}>
+              {collapsed ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+            </IconButton>
+          )}
+        </div>
+      </div>
+      <Dialog
+        open={isDeleteDialogOpen}
+        onClose={handleCloseDeleteDialog}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Are you sure you want to delete this office?"}</DialogTitle>
+        <DialogContent>
+            By deleting this office you also confirm the deletion of all related information:<br/><ul><li>all users which have an access to the selected office</li></ul>As the result, all data will be erased and are not a subject to recovery!
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDeleteDialog} color="primary">
+            Cancel
+          </Button>
+                    <Button onClick={() => handleConfirmDelete()} color="primary" >
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
+};
+
+const Node = ({ node, parent, expandAll, searchQuery, result }) => {
+  const [collapsed, setCollapsed] = useState(false);
+  const filterNode = (node, searchQuery) => {
+    if (node.Name.toLowerCase().includes(searchQuery.toLowerCase())) {
+      return true;
+    }
+
+    if (node.Children && node.Children.length > 0) {
+      return node.Children.some(child => filterNode(child, searchQuery));
+    }
+
+    return false;
+  };
+
+  const filteredChildren = node?.Children?.filter(child =>
+    filterNode(child, searchQuery)
+  );
+
+  const handleCollapse = () => {
+    setCollapsed(!collapsed);
+  };
+
+  useEffect(() => {
+    if (!expandAll) {
+      setCollapsed(false);
+    } else {
+      setCollapsed(true);
+    }
+  }, [expandAll]);
+
+  const T = parent
+    ? TreeNode
+    : (props) => (
+        <Tree
+          {...props}
+          lineWidth={"2px"}
+          lineColor={"#bbc"}
+          lineBorderRadius={"12px"}
+        >
+          {props?.children}
+        </Tree>
+      );
+
+  return collapsed ? (
+    <T
+      label={
+        <Organization
+          org={node}
+          onCollapse={handleCollapse}
+          collapsed={collapsed}
+          result={result}
+        />
+      }
+    />
+  ) : (
+    <T
+      label={
+        <Organization
+          org={node}
+          onCollapse={handleCollapse}
+          collapsed={collapsed}
+          result={result}
+        />
+      }
+    >
+      {filteredChildren?.map((child) => (
+        <Node
+          key={child.Id}
+          node={child}
+          parent={node}
+          expandAll={expandAll}
+          searchQuery={searchQuery}
+          result={result}
+        />
+      ))}
+    </T>
+  );
+};
+
+export const OrganizationTree = ({ organizationChartData, expandAll, searchQuery, reset, setReset }) => {
+  const [dragKey, setDragKey] = useState(0);
+  const dispatch = useDispatch()
+
+  const handleDrag = () => {
+    setReset(false);
+  };
+
+   useEffect(() => {
+  dispatch(fetchUserInfo());
+}, []);
+
+
+  useEffect(() => {
+    if (reset) {
+      setDragKey(prevKey => prevKey + 1);
+    }
+  }, [reset]);
+
+  const loggedUser = useSelector((state: RootState) => state.user); //user data and transition id included to check delete button
+
+function findAllParentIds(data, targetId) {
+    let currentObject = null;
+    const parentMap = new Map(); // To track each node's parent
+
+    // Helper function to traverse the hierarchical structure
+    function traverse(children, parent = null) {
+        if (!Array.isArray(children)) {
+            console.error("Expected children to be an array but got:", children);
+            return;
+        }
+
+        for (let child of children) {
+            if (child.RelationshipId === targetId) {
+                currentObject = {
+                    object: child,
+                    parent,
+                };
+                return;
+            }
+            if (child.Children && Array.isArray(child.Children)) {
+                parentMap.set(child.RelationshipId, parent);
+                traverse(child.Children, child);
+            }
+        }
+    }
+
+    // Start traversing from the root
+    traverse(data);
+
+    // Collect IDs
+    const ids = [];
+    const parents = [];
+
+    // Collect IDs for the target object and all levels of parents
+    let current = currentObject;
+    while (current) {
+        ids.push(current.object.RelationshipId);
+        if (current.parent) {
+            parents.push(current.parent.RelationshipId);
+            current = {
+                object: current.parent,
+                parent: parentMap.get(current.parent.RelationshipId)
+            };
+        } else {
+            break;
+        }
+    }
+
+
+    return {
+        currentObjectId: ids,
+        parentIds: parents
+    };
+}
+
+// Example usage
+const data = organizationChartData?.Data;
+const targetId = loggedUser?.transitionId;
+
+
+const result = findAllParentIds(data, targetId);
+
+
+
+  return (
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        justifyContent: "center",
+      }}
+    >
+      <Draggable key={dragKey} onDrag={handleDrag}>
+        <div style={{ cursor: "grab" }}>
+          <Box padding={4} height="80vh">
+            {organizationChartData && organizationChartData.Data && organizationChartData.Data.length > 0 && (
+              organizationChartData.Data.map(org => (
+                <Node key={org.Id} parent={undefined} node={org} expandAll={expandAll} searchQuery={searchQuery} result={result}/>
+              ))
+            )}
+          </Box>
+        </div>
+      </Draggable>
+    </div>
+  );
+};
