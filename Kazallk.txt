@@ -1,0 +1,309 @@
+/* eslint-disable react/jsx-filename-extension */
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+/* eslint-disable @typescript-eslint/indent */
+import React from "react";
+import GaugeChart from "react-gauge-chart";
+import "./SpeedometerNew.scoped.scss";
+import { Benchmark } from "../Benchmark";
+import { Tooltip } from "@mui/material";
+import { useWindowSize } from "src/hooks";
+import { useSelector } from "react-redux";
+import { RootState } from "src/app/store";
+
+type SpeedProps = {
+  header?: string;
+  value?: number;
+  benchmarkValue?: string;
+  previous?: number;
+  progress?: number;
+  global?: boolean;
+  benchmarkHoverSource?: string;
+  benchmarkHoverSourceName?: string;
+  isUsedInTrends?: boolean
+};
+
+export const SpeedometerNew = ({
+  header,
+  value,
+  benchmarkValue,
+  global,
+  benchmarkHoverSource,
+  benchmarkHoverSourceName,
+  isUsedInTrends
+}: SpeedProps) => {
+
+  const {
+    height
+  } = useWindowSize()
+
+  const benchmarkEnabled =  useSelector((state: RootState) => state.user.settings.Data.Features.Benchmarks?.Enabled)
+  const benchmarkUseAdvanced =  useSelector((state: RootState) => state.user.settings.Data.Features.Benchmarks?.UseAdvanced)
+
+  let expectedBenchmarkValueAngle = 0
+  if(header === "LIFT SCORE"){ 
+    expectedBenchmarkValueAngle = (Number(benchmarkValue?.toString()?.split('%')[0]) / 100 ) * 180
+  } else {
+    expectedBenchmarkValueAngle = (Number(benchmarkValue?.toString()?.split('%')[0]) / 10 ) * 180
+  }
+  let expectedValueAngle;
+  if (header === "LIFT SCORE") {
+    if (value / 10 >= 8.5) {
+      expectedValueAngle = ((Number(value) / 10 + 0.1) / 10) * 180;
+    } else {
+      expectedValueAngle = (Number(value) / 100) * 180;
+    }
+  } else {
+    if (value >= 8.5) {
+      expectedValueAngle = ((Number(value) + 0.1) / 10) * 180;
+    } else {
+      expectedValueAngle = (Number(value) / 10) * 180;
+    }
+  }
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center"
+      }}
+    >
+      <div
+        className="speed"
+        style={{
+          border: !global && isUsedInTrends ? "3px dashed #6E6E6E" : global && isUsedInTrends ? "3px dashed #6E6E6E" : global && isUsedInTrends === undefined ?  "3px dashed #7E5EF4" : "3px dashed #6E6E6E"
+        }}
+      >
+        {benchmarkValue &&     <div
+          className="expectedValueArrowContainer"
+          style={{
+            transform: `rotate(${expectedBenchmarkValueAngle}deg)`,
+            zIndex: 5
+          }}
+        >
+          {value !== 0 && (
+            <Tooltip title={`Benchmark ${benchmarkValue}`}>
+              {!global ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="30"
+                  height="16"
+                  viewBox="0 0 11 7"
+                  style={{ transform: "rotate(210deg)",  position: "relative",
+            top: "-4px",
+            left: "-103px", }}
+                >
+                  <path
+                    d="M10.0086 1.2157C10.6581 2.1227 10.2863 3.3985 9.25118 3.8145L1.50651 6.92702C1.21726 7.04326 0.886045 6.9594 0.686976 6.7195C0.421146 6.39916 0.482906 5.92056 0.821348 5.67819L7.60744 0.818505C8.38019 0.265124 9.45523 0.442952 10.0086 1.2157Z"
+                    fill="#6E6E6E"
+                  />
+                </svg>
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="30"
+                  height="16"
+                  viewBox="0 0 12 7"
+                  fill="none"
+                  style={{
+                    transform: "rotate(195deg)",
+                    position: "relative",
+                    top: "-6px",
+                    left: "-102px",
+                  }}
+                >
+                  <path
+                    d="M10.7922 1.62259C11.1639 2.67445 10.4519 3.79651 9.34192 3.90826L1.03718 4.74432C0.727017 4.77554 0.43219 4.60288 0.307683 4.31709C0.141422 3.93546 0.333838 3.49291 0.72633 3.35422L8.59617 0.573335C9.49232 0.25667 10.4755 0.726437 10.7922 1.62259Z"
+                    fill="#7E5EF4"
+                  />
+                </svg>
+              )}
+            </Tooltip>
+          )}
+        </div>}
+    
+        {value !== null && (
+          <div
+            id="valueArrowContainer"
+            style={{
+              transform: `rotate(${expectedValueAngle}deg)`
+            }}
+          >
+            <Tooltip title={`Value ${value}`}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="70"
+                height="155"
+                viewBox="0 0 32 21"
+                fill="none"
+                style={{
+                  transform: "rotate(210deg)",
+                  position: "absolute",
+                  left: "45px",
+                  top: "-71px"
+                }}
+              >
+                <path
+                  d="M1.22175 19.3514C0.55472 18.3322 0.901021 16.9605 1.97193 16.3801L30.4584 0.939713C30.7464 0.783614 31.1027 0.835264 31.3345 1.06671C31.6672 1.39889 31.6102 1.95301 31.2168 2.21047L4.10474 19.9536C3.14234 20.5834 1.85158 20.3138 1.22175 19.3514Z"
+                  fill="#6E6E6E"
+                />
+              </svg>
+            </Tooltip>
+          </div>
+        )}
+
+        <div className="gaugeMeterContainer">
+          <GaugeChart
+            key={height.toString()}
+            id="gauge-chart"
+            arcsLength={[0.71, 0.16, 0.17]}
+            colors={["red", "gold", "green"]}
+            percent={Number(value)}
+            arcPadding={0.01}
+            cornerRadius={0}
+            needleColor={"transparent"}
+            needleBaseColor={"#FFFFFF"}
+            animateDuration={0}
+            animate={false}
+            style={{
+              zIndex: "1",
+              width: '240px',
+              maxWidth: '240px',
+              minWidth: '240px'
+            }}
+
+            textColor={"#39525A"}
+            hideText={true}
+          />
+          <div
+            className="gaugeMeterBorder"
+            style={{  zIndex: 0 }}
+          >
+            <div
+              className="currentValue"
+              style={
+  header === 'LIFT SCORE'
+  ? 
+    value > 0 && value < 70
+    ? {
+        border: "3px solid #EB4F79",
+        filter: "drop-shadow(0px 0px 2.5px rgba(0, 0, 0, 0.36))"
+      }
+    : value >= 70 && value <= 84
+    ? {
+        border: "3px solid #FECC08",
+        filter: "drop-shadow(0px 0px 2.5px rgba(0, 0, 0, 0.36))"
+      }
+    : value > 84
+    ? {
+        border: "3px solid #43BFA6",
+        filter: "drop-shadow(0px 0px 2.5px rgba(0, 0, 0, 0.36))"
+      }
+    : {
+        filter: "drop-shadow(0px 0px 2.5px rgba(0, 0, 0, 0.36))"
+      }
+  : 
+    value > 0 && value < 7
+    ? {
+        border: "3px solid #EB4F79",
+        filter: "drop-shadow(0px 0px 2.5px rgba(0, 0, 0, 0.36))"
+      }
+    : value >= 7 && value <= 8.4
+    ? {
+        border: "3px solid #FECC08",
+        filter: "drop-shadow(0px 0px 2.5px rgba(0, 0, 0, 0.36))"
+      }
+    : value > 8.4
+    ? {
+        border: "3px solid #43BFA6",
+        filter: "drop-shadow(0px 0px 2.5px rgba(0, 0, 0, 0.36))"
+      }
+    : {
+        filter: "drop-shadow(0px 0px 2.5px rgba(0, 0, 0, 0.36))"
+      }
+}
+            >
+              <span>
+                {value === 0 || value === null || value === '0' ? (
+                  "--"
+                ) : header === "LIFT SCORE" ? (
+                  <>
+                    <span style={{color: 'black'}}>{value}</span>
+                    <span style={{ fontSize: "13px", color: 'black' }}>%</span>
+                  </>
+                ) : (
+                    <span style={{color: 'black'}}>{(Number(value)?.toFixed(1))}</span>
+                )}
+              </span>
+            </div>
+            <svg
+              width="25"
+              height="20"
+              viewBox="0 0 15 9"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              xmlnsXlink="http://www.w3.org/1999/xlink"
+              className="liftLogo"
+            >
+              <rect width="15" height="9" fill="url(#pattern0)" />
+              <defs>
+                <pattern
+                  id="pattern0"
+                  patternContentUnits="objectBoundingBox"
+                  width="1"
+                  height="1"
+                >
+                  <use
+                    xlinkHref="#image0_270_524"
+                    transform="matrix(0.00983607 0 0 0.0163934 -0.0163934 0)"
+                  />
+                </pattern>
+                <image
+                  id="image0_270_524"
+                  width="105"
+                  height="61"
+                  xlinkHref="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGkAAAA9CAYAAACunUfbAAAAAXNSR0IArs4c6QAABYhJREFUeF7tXIdLPD0QnbP33nvHrmAX9X+3oKBi71hR7Nixl48XjK7329vd7GWP1W8G5MRNJrn3NjOTZMbAx8fHB7H4GoEAk+RrfsTkmCT/c8Qk/QKOmCQm6Tcg8AvmyD6JSfoFCPyCKfp+Jb2/v1NUVJQ2KKEPolOntsmFUORbks7Ozmhzc5MeHx/F1LOysqi2tpaSkpKUMLm7u6OTkxM6PT390iVJSk1Npfz8fMrJyaH4+HglvZFs7DuSbm5uaGVlhe7v7//BIRAIUHZ2NjU3N1uuhNvbW9re3iZ8Pj8/O8ITJIG01tZWR+0j2chXJL28vNDk5CQ9PT19YSDNkjRTeFBUVET19fX/4PT29ka7u7u0t7fnCsPExETq6+sL2Vf1BA0vlQ5RIuno6EiAoCJ4M5OTkx11WVpaEmYJgi/Y1NQk3m6AA+AxvpT29nZhAqW8vr7S1NQUPTw8OBrLrFFhYSE1NDSY9r++vqbFxUUl3SUlJVRRUaHUx6yxEkkAamtrS2nQzs5OSktLc9RnfHxc+A0Q1NLSInyFURYWFuj8/Fz8CQDU1dWJ37HKZmZmCKYyHGlsbKSCggJTFZeXlzQ7O6ukvry8nKqrq5X6+J6kkZERwoqIjo4WZicuLu7HnA8PD2ltbU38Db6pra1N/L68vCyCg3Clv7+fEhISmCQrIEdHRwl+CX4IJAVHXAcHB7SxsSFUYJXBlGIVgVyjz3JDFkxyT09PyK68kj6hmZiY+PIpMBMwF1KwwmDSEFJDKisrxQ/8BML1cCV4vGB9TNInIvB3xsgMQUNNTY2I9tbX1wnRm5Te3l5hDrGKwhX4wO7ubssAh0n6RBkma25ujq6urkLiDkARMBQXF4tAYXp6OlyOKCYmhuCP8BlKmCQDMiAKURxCXuPKQRP4qLKyMiotLRU9EOmhrYrA3yF0R3SIfRHGwUthtu8y6oVJVQ3B/2R0ZwQFJg4kwQfFxsaKqAufxrcdER0iOxUByTChqoKoEtGlivx5kpyAcXx8LI6QVAQrBud1ZoLQH4LVLE8X5CkGCFKNILHiq6qqLMdyMndfbWadTNjYxg1JVmN0dXWJE47V1dUfpxuq83LSXmWTzyQZEGWSnLxeim14JZkA5vXZnSJHxCQxSarvjFJ79klKcH03Zp/kEjirbmzu2Nx58Fp9q2Rz5xJeNncugdNt7nAslJmZaao2IyNDXDjiCj44EQbHU6q30nl5eYQreTORYzmB5X+3mbW6IrcCjE/BnbxOJm3cBA5MkgmQKg5SlSsm6Y9Gd7ySeCX9QIDvk4hcnd1FciWFyrRVNeueR3fINE1JSVGdV8j2yHHADS3E7z4J1/1ITQu3gsNzknDdrSsnGsSAIGQKRZokJP8jjVlVZH6gsR9yM3DT67Q4wHOSVL+UXXuQNDg4GHGSUJ0xNjZmNz3T53hJjYUH8moeqwzJMHbCJNkhZHgOkpyW0jhRi3wL+C07YZLsEDI815VzLlXi2Ai1VnbCJNkhZHjuJs/PSj0ycAcGBmxnwCTZQvTdACldw8PDX+leCl1DNu3o6KD09HRLVUySItIXFxc0Pz+vjSjUQ2HvZiVMkiJJaI6ETOzRdIhdCSjGYJJcIA2zh8p41EuFK7i/GhoastxLMklhoCxriN3W6eIkJjc3V9RZaTN3+/v7tLOzE8bXCr8rNrOyQhxF0LI806lm7E0Q+uoU+T8nsIcy5pEbx5AbWlnVAWKc/k8KpZWECagmresEQ+qSlRXYuQeXx9iNB/Oi85jKOB5IQmE2PlGZCKwwFsZEuI3KEHyqnuUpkWQHAD/3BgEmyRtctWplkrTC6Y0yJskbXLVqZZK0wumNMibJG1y1amWStMLpjTImyRtctWplkrTC6Y0yJskbXLVq/Q9V8bCGIpVtwwAAAABJRU5ErkJggg=="
+                />
+              </defs>
+            </svg>
+            <>
+  {!isUsedInTrends && (
+    <>
+      {benchmarkEnabled === false ? null : 
+      benchmarkEnabled === true && benchmarkUseAdvanced === false ? (
+        <div className="benchmarkValue">
+          {value !== 0 && (
+            <Benchmark 
+              global={!global} 
+              benchmarkValue={benchmarkValue} 
+              tableBenchmark={false} 
+              benchmarkHoverSource={benchmarkHoverSource} 
+              benchmarkHoverSourceName={benchmarkHoverSourceName} 
+              value={value}
+            />
+          )}
+        </div>
+      ) : 
+      benchmarkEnabled === true && benchmarkUseAdvanced === true ? (
+        <div className="benchmarkValue">
+          {value !== 0 && (
+            <Benchmark 
+              global={!global} 
+              benchmarkValue={benchmarkValue} 
+              benchmarkHoverSource={benchmarkHoverSource} 
+              benchmarkHoverSourceName={benchmarkHoverSourceName} 
+              value={value}
+            />
+          )}
+        </div>
+      ) : null}
+    </>
+  )}
+</>
+             
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
