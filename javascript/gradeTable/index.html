@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <label for="name">Name</label>
+    <input type="text" name="name" id="name" />
+    <br />
+    <br />
+    <label for="name">Math</label>
+    <input type="text" name="math" id="math" />
+    <br />
+    <br /><label for="name">Physics</label>
+    <input type="text" name="physics" id="physics" />
+    <br />
+    <br />
+    <label for="name">Algebra</label>
+    <input type="text" name="algebra" id="algebra" />
+    <br />
+    <br />
+    <label for="name">English</label>
+    <input type="text" name="english" id="english" />
+    <br />
+    <br />
+    <button onclick="onSubmitHandler()">submit</button>
+    <br />
+    <p>Numri i nxenesve qe kan kaluar: <span id="passedStudents">0</span></p>
+    <p>Numri i nxenesve qe kan deshtuar: <span id="failedStudents">0</span></p>
+    <table border="10">
+      <thead>
+        <th>Name</th>
+        <th>Math</th>
+        <th>Physics</th>
+        <th>Algebra</th>
+        <th>English</th>
+        <th>AVERAGE</th>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </body>
+  <script src="script.js"></script>
+</html>

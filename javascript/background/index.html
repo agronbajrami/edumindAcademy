@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <style>
+    #background {
+      width: 400px;
+      height: 300px;
+      border: 1px solid black;
+    }
+  </style>
+  <body>
+    <div id="background">
+      <h1>CHANGE BACKGROUND</h1>
+      <input type="radio" name="background" id="color" value="color" />
+      <!-- how to get the value of input type radio on button click in javascript -->
+      <label for="color">color</label>
+      <input type="radio" name="background" id="image" value="image" />
+      <label for="image">image</label>
+      <br /><br />
+      <input type="text" id="text" />
+      <br /><br />
+      <button onclick="onChangeHandler()">Change</button>
+    </div>
+  </body>
+  <script src="script.js"></script>
+</html>
